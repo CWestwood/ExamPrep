@@ -75,6 +75,13 @@
             display: none;
         }
 
+        .question-ref {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
         .question {
             font-size: 1.3em;
             font-weight: 500;
@@ -268,6 +275,7 @@
         </div>
 
         <div class="quiz-container" id="quizContainer">
+            <div class="question-ref" id="questionRef"></div>
             <div class="question" id="question"></div>
             <div class="options" id="options"></div>
             <div class="explanation" id="explanation"></div>
@@ -288,6 +296,7 @@
         const loading = document.getElementById('loading');
         const error = document.getElementById('error');
         const quizContainer = document.getElementById('quizContainer');
+        const questionRefEl = document.getElementById('questionRef');
         const questionEl = document.getElementById('question');
         const optionsEl = document.getElementById('options');
         const explanationEl = document.getElementById('explanation');
@@ -321,7 +330,7 @@
                             return;
                         }
 
-                        // Process the data - assuming columns are B(1), C(2), D(3), E(4), F(5), G(6), H(7)
+                        // Process the data - assuming columns are A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7)
                         const data = results.data;
                         questions = [];
 
@@ -335,7 +344,8 @@
                             }
 
                             const question = {
-                                text: cols[1]?.trim(), // Column B
+                                reference: cols[0]?.trim(), // Column A
+                                text: cols[1]?.trim(),      // Column B
                                 options: [
                                     cols[2]?.trim(), // Column C
                                     cols[3]?.trim(), // Column D
@@ -343,7 +353,7 @@
                                     cols[5]?.trim()  // Column F
                                 ].filter(opt => opt && opt.length > 0),
                                 correctAnswer: cols[6]?.trim(), // Column G
-                                explanation: cols[7]?.trim() // Column H
+                                explanation: cols[7]?.trim()    // Column H
                             };
 
                             if (question.text && question.options.length > 0 && question.correctAnswer) {
@@ -394,6 +404,9 @@
             // Select random question
             currentQuestion = questions[Math.floor(Math.random() * questions.length)];
             
+            // Display question reference
+            questionRefEl.textContent = currentQuestion.reference ? `Reference: ${currentQuestion.reference}` : '';
+
             // Display question
             questionEl.textContent = currentQuestion.text;
             
@@ -434,16 +447,21 @@
                 opt.toLowerCase().trim() === currentQuestion.correctAnswer.toLowerCase().trim()
             );
 
-            // Highlight correct and incorrect answers
+            // Highlight only the selected answer and (optionally) the correct one if user was wrong
             const options = optionsEl.children;
             for (let i = 0; i < options.length; i++) {
                 const option = options[i];
-                if (i === correctIndex) {
-                    option.classList.add('correct');
-                } else if (i === selectedAnswer) {
-                    option.classList.add('incorrect');
-                }
                 option.style.cursor = 'default';
+                option.classList.remove('correct', 'incorrect');
+                if (i === selectedAnswer) {
+                    if (selectedAnswer === correctIndex) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                        // Optionally highlight the correct one if wrong:
+                        options[correctIndex].classList.add('correct');
+                    }
+                }
             }
 
             // Show explanation if available
