@@ -1,479 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz App</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
-
-        .file-input-container {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .file-input-container:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .file-input-container input {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .quiz-container {
-            display: none;
-        }
-
-        .question-ref {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .question {
-            font-size: 1.3em;
-            font-weight: 500;
-            margin-bottom: 25px;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            padding: 15px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-            font-size: 1.1em;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-        }
-
-        .option:hover::before {
-            left: 100%;
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .option.correct {
-            border-color: #27ae60;
-            background: rgba(39, 174, 96, 0.1);
-            color: #27ae60;
-        }
-
-        .option.incorrect {
-            border-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-            color: #e74c3c;
-        }
-
-        .explanation {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(39, 174, 96, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid #27ae60;
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .explanation.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
-        }
-
-        button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transition: width 0.3s, height 0.3s;
-            transform: translate(-50%, -50%);
-        }
-
-        button:hover::before {
-            width: 100px;
-            height: 100px;
-        }
-
-        .confirm-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .confirm-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .next-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            display: none;
-        }
-
-        .next-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);
-        }
-
-        .error {
-            color: #e74c3c;
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(231, 76, 60, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .loading {
-            text-align: center;
-            color: #667eea;
-            font-size: 1.2em;
-            margin: 20px 0;
-        }
-
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>MCQ Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      max-width: 700px;
+    }
+    .question-box {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .source {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+    .options label {
+      display: block;
+      margin: 0.5rem 0;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+    }
+    .correct { background: #d4edda; color: #155724; }
+    .incorrect { background: #f8d7da; color: #721c24; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Quiz App</h1>
-        
-        <div class="file-input-container">
-            <div class="loading" id="loading">Loading questions from questions.csv</div>
-            <div class="error" id="error" style="display: none;"></div>
-        </div>
+  <h1>Multiple Choice Quiz</h1>
+  <div id="quiz-container"></div>
+  <script>
+    async function loadCSV() {
+      const response = await fetch("questions.csv");
+      const text = await response.text();
+      const rows = text.trim().split("\n").map(r => r.split(","));
+      // Ignore header (row[0]) and parse from row[1]
+      return rows.slice(1).map(r => ({
+        question: r[1],
+        options: r.slice(2, 6),
+        answer: r[6],
+        explanation: r[7],
+        source: r[8]
+      }));
+    }
 
-        <div class="quiz-container" id="quizContainer">
-            <div class="question-ref" id="questionRef"></div>
-            <div class="question" id="question"></div>
-            <div class="options" id="options"></div>
-            <div class="explanation" id="explanation"></div>
-            <div class="buttons">
-                <button class="confirm-btn" id="confirmBtn">Confirm Answer</button>
-                <button class="next-btn" id="nextBtn">Next Question</button>
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    async function startQuiz() {
+      const questions = shuffle(await loadCSV());
+      let currentIndex = 0;
+      const container = document.getElementById("quiz-container");
+
+      function showQuestion() {
+        if (currentIndex >= questions.length) {
+          container.innerHTML = "<h2>Quiz Complete! 🎉</h2>";
+          return;
+        }
+
+        const q = questions[currentIndex];
+        container.innerHTML = `
+          <div class="question-box">
+            <h2>${q.question}</h2>
+            <div class="source">Source: ${q.source || "Unknown"}</div>
+            <div class="options">
+              ${q.options.map((opt, i) => `
+                <label>
+                  <input type="radio" name="option" value="${opt}">
+                  ${opt}
+                </label>
+              `).join("")}
             </div>
-        </div>
-    </div>
+            <button id="submit-btn">Confirm Answer</button>
+            <div id="feedback"></div>
+          </div>
+        `;
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script>
-        let questions = [];
-        let currentQuestion = null;
-        let selectedAnswer = null;
-        let answered = false;
+        document.getElementById("submit-btn").addEventListener("click", () => {
+          const selected = document.querySelector("input[name='option']:checked");
+          const feedbackDiv = document.getElementById("feedback");
+          if (!selected) {
+            alert("Please select an option!");
+            return;
+          }
 
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-        const quizContainer = document.getElementById('quizContainer');
-        const questionRefEl = document.getElementById('questionRef');
-        const questionEl = document.getElementById('question');
-        const optionsEl = document.getElementById('options');
-        const explanationEl = document.getElementById('explanation');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const nextBtn = document.getElementById('nextBtn');
+          const isCorrect = selected.value.trim() === q.answer.trim();
+          feedbackDiv.className = "feedback " + (isCorrect ? "correct" : "incorrect");
+          feedbackDiv.innerHTML = `
+            <strong>${isCorrect ? "✅ Correct!" : "❌ Incorrect."}</strong><br>
+            Correct Answer: <b>${q.answer}</b><br>
+            Explanation: ${q.explanation}
+          `;
 
-        // Load CSV file from repository on page load
-        window.addEventListener('load', loadQuestionsFromFile);
+          document.getElementById("submit-btn").disabled = true;
 
-        confirmBtn.addEventListener('click', confirmAnswer);
-        nextBtn.addEventListener('click', nextQuestion);
+          setTimeout(() => {
+            currentIndex++;
+            showQuestion();
+          }, 3000);
+        });
+      }
 
-        async function loadQuestionsFromFile() {
-            try {
-                const response = await fetch('questions.csv');
-                
-                if (!response.ok) {
-                    throw new Error(`Could not load questions.csv: ${response.status} ${response.statusText}`);
-                }
-                
-                const csvText = await response.text();
-                
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        loading.style.display = 'none';
-                        
-                        if (results.errors.length > 0) {
-                            showError('Error parsing CSV: ' + results.errors[0].message);
-                            return;
-                        }
+      showQuestion();
+    }
 
-                        // Process the data - assuming columns are A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7)
-                        const data = results.data;
-                        questions = [];
-
-                        for (let i = 0; i < data.length; i++) {
-                            const row = data[i];
-                            const cols = Object.values(row);
-                            
-                            if (cols.length < 8) {
-                                console.warn(`Row ${i + 1} has insufficient columns, skipping`);
-                                continue;
-                            }
-
-                            const question = {
-                                reference: cols[0]?.trim(), // Column A
-                                text: cols[1]?.trim(),      // Column B
-                                options: [
-                                    cols[2]?.trim(), // Column C
-                                    cols[3]?.trim(), // Column D
-                                    cols[4]?.trim(), // Column E
-                                    cols[5]?.trim()  // Column F
-                                ].filter(opt => opt && opt.length > 0),
-                                correctAnswer: cols[6]?.trim(), // Column G
-                                explanation: cols[7]?.trim()    // Column H
-                            };
-
-                            if (question.text && question.options.length > 0 && question.correctAnswer) {
-                                questions.push(question);
-                            }
-                        }
-
-                        if (questions.length === 0) {
-                            showError('No valid questions found in CSV. Please check the format.');
-                            return;
-                        }
-
-                        // Hide file input and show quiz
-                        document.querySelector('.file-input-container').style.display = 'none';
-                        quizContainer.style.display = 'block';
-                        
-                        // Load first question
-                        loadRandomQuestion();
-                    },
-                    error: function(error) {
-                        loading.style.display = 'none';
-                        showError('Error parsing CSV: ' + error.message);
-                    }
-                });
-                
-            } catch (fetchError) {
-                loading.style.display = 'none';
-                showError('Error loading questions.csv: ' + fetchError.message + 
-                         '. Make sure the file exists in the same directory as this HTML file.');
-            }
-        }
-
-        function showError(message) {
-            error.textContent = message;
-            error.style.display = 'block';
-        }
-
-        function loadRandomQuestion() {
-            if (questions.length === 0) return;
-
-            // Reset state
-            selectedAnswer = null;
-            answered = false;
-            confirmBtn.style.display = 'inline-block';
-            nextBtn.style.display = 'none';
-            explanationEl.classList.remove('show');
-
-            // Select random question
-            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-            
-            // Display question reference
-            questionRefEl.textContent = currentQuestion.reference ? `Reference: ${currentQuestion.reference}` : '';
-
-            // Display question
-            questionEl.textContent = currentQuestion.text;
-            
-            // Display options
-            optionsEl.innerHTML = '';
-            currentQuestion.options.forEach((option, index) => {
-                const optionEl = document.createElement('div');
-                optionEl.className = 'option';
-                optionEl.textContent = option;
-                optionEl.addEventListener('click', () => selectOption(index));
-                optionsEl.appendChild(optionEl);
-            });
-        }
-
-        function selectOption(index) {
-            if (answered) return;
-
-            // Remove previous selections
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-
-            // Add selection to clicked option
-            const optionEl = optionsEl.children[index];
-            optionEl.classList.add('selected');
-            selectedAnswer = index;
-        }
-
-        function confirmAnswer() {
-            if (selectedAnswer === null || answered) return;
-
-            answered = true;
-            confirmBtn.style.display = 'none';
-            nextBtn.style.display = 'inline-block';
-
-            // Find correct answer index
-            const correctIndex = currentQuestion.options.findIndex(opt => 
-                opt.toLowerCase().trim() === currentQuestion.correctAnswer.toLowerCase().trim()
-            );
-
-            // Highlight only the selected answer and (optionally) the correct one if user was wrong
-            const options = optionsEl.children;
-            for (let i = 0; i < options.length; i++) {
-                const option = options[i];
-                option.style.cursor = 'default';
-                option.classList.remove('correct', 'incorrect');
-                if (i === selectedAnswer) {
-                    if (selectedAnswer === correctIndex) {
-                        option.classList.add('correct');
-                    } else {
-                        option.classList.add('incorrect');
-                        // Optionally highlight the correct one if wrong:
-                        options[correctIndex].classList.add('correct');
-                    }
-                }
-            }
-
-            // Show explanation if available
-            if (currentQuestion.explanation) {
-                explanationEl.textContent = currentQuestion.explanation;
-                explanationEl.classList.add('show');
-            }
-        }
-
-        function nextQuestion() {
-            loadRandomQuestion();
-        }
-    </script>
+    startQuiz();
+  </script>
 </body>
 </html>
