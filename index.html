@@ -47,13 +47,12 @@
     </div>
   </div>
 
-  <div class="footer">Tip: These questions are designed as a trigger to review the guidelines and may not be completely correct! </div>
+  <div class="footer">Tip: These questions are designed as a trigger to review the guidelines and may not be completely correct! They may also be using guideline with competing information (eg PHC 2019 vs VTP) </div>
+
 
   <script>
-    // ---------------------- Utilities ----------------------
     function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 
-    // Robust CSV parser (handles quoted fields and double-quote escapes) - RFC4180-ish
     function parseCSV(text){
       const rows = [];
       let i = 0, len = text.length;
@@ -65,24 +64,19 @@
         const ch = text[i];
         if (inQuotes) {
           if (ch === '"') {
-            if (i + 1 < len && text[i+1] === '"') { field += '"'; i += 2; continue; } // escaped quote
+            if (i + 1 < len && text[i+1] === '"') { field += '"'; i += 2; continue; }
             inQuotes = false; i++; continue;
           } else { field += ch; i++; continue; }
         }
 
         if (ch === '"') { inQuotes = true; i++; continue; }
         if (ch === ',') { row.push(field); field = ''; i++; continue; }
-        if (ch === '\r') { // handle CRLF or CR-only
+        if (ch === '\r') {
           i++; if (i < len && text[i] === '\n') i++; row.push(field); rows.push(row); row = []; field = ''; continue;
         }
         if (ch === '\n') { i++; row.push(field); rows.push(row); row = []; field = ''; continue; }
         field += ch; i++;
       }
-      // push last field/row
-      if (inQuotes) {
-        // unclosed quotes — still push what we have
-      }
-      // if there is any leftover data
       if (field !== '' || row.length > 0) {
         row.push(field);
         rows.push(row);
@@ -92,36 +86,28 @@
 
     function normalizeText(s){ return String(s||'').replace(/\s+/g,' ').replace(/[\u2018\u2019\u201c\u201d]/g, '"').replace(/[\p{P}]/gu,'').trim().toLowerCase(); }
 
-    // Determine the correct option index (0..3) from the answer cell and options.
     function determineCorrectIndex(options, answerCell){
       const a = (answerCell||'').trim();
       if (!a) return -1;
-      // If answer is a simple letter A-D
       const first = a.charAt(0).toUpperCase();
       if (/^[ABCD]$/.test(first) && (a.length === 1 || /[^a-zA-Z]/.test(a.charAt(1)))) {
         return {'A':0,'B':1,'C':2,'D':3}[first];
       }
-      // If answer is 1-4
       if (/^[1-4]$/.test(a)) return parseInt(a,10)-1;
-      // If the answer starts with A) or A. followed by text
       const m = a.match(/^([A-D])\s*[\)\.\-:]\s*(.+)$/i);
-      if (m){ const letter = m[1].toUpperCase(); const trailing = m[2].trim(); // try trailing match
+      if (m){ const letter = m[1].toUpperCase(); const trailing = m[2].trim();
         for (let i=0;i<options.length;i++){ if (normalizeText(options[i]) === normalizeText(trailing)) return i; }
         return {'A':0,'B':1,'C':2,'D':3}[letter];
       }
-      // exact match with option text
       for (let i=0;i<options.length;i++){ if (normalizeText(options[i]) === normalizeText(a)) return i; }
-      // contains / partial match
       for (let i=0;i<options.length;i++){ const o = normalizeText(options[i]); if (o && (o.includes(normalizeText(a)) || normalizeText(a).includes(o))) return i; }
       return -1;
     }
 
     function letterForIndex(i){ return ['A','B','C','D'][i] || '?'; }
 
-    // ---------------------- CSV -> Questions ----------------------
     function rowsToQuestions(rows){
       if (!rows || rows.length === 0) return [];
-      // Detect header row: if any cell in first row looks like a header (contains 'question' or 'option' or 'answer')
       const first = rows[0].map(c => String(c||'').toLowerCase());
       let start = 0;
       if (first.some(c => /question|option|answer|explanation|source/.test(c))) start = 1;
@@ -130,9 +116,8 @@
       for (let r = start; r < rows.length; r++){
         const row = rows[r];
         if (!row) continue;
-        // Per user: B = question (index 1), C-F = options (2..5), G=answer (6), H=explanation (7), I=source (8)
         const question = (row[1] || '').trim();
-        if (!question) continue; // skip empty rows
+        if (!question) continue;
         const options = [row[2]||'', row[3]||'', row[4]||'', row[5]||''].map(x => String(x||'').trim());
         const answerCell = (row[6]||'').trim();
         const explanation = (row[7]||'').trim();
@@ -143,7 +128,6 @@
       return questions;
     }
 
-    // ---------------------- UI & Flow ----------------------
     const el = {
       loading: document.getElementById('loading'),
       noData: document.getElementById('no-data'),
@@ -175,6 +159,14 @@
       }
     }
 
+    function shuffle(array){
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     function renderCurrent(){
       el.feedback.classList.add('hidden');
       el.feedback.classList.remove('correct','incorrect');
@@ -199,10 +191,9 @@
       el.qText.innerHTML = escapeHtml(q.question);
       el.qSource.innerHTML = q.source ? `Source: ${escapeHtml(q.source)}` : '<span class="small">Source: (not provided)</span>';
 
-      // Build options (use index as value to avoid string-comparison issues)
       el.options.innerHTML = '';
       q.options.forEach((optText, idx) => {
-        if (!optText) return; // skip empty options
+        if (!optText) return;
         const id = `opt_${currentIndex}_${idx}`;
         const label = document.createElement('label');
         label.setAttribute('for', id);
@@ -210,17 +201,14 @@
         el.options.appendChild(label);
       });
 
-      // enable confirm only after a selection
       const radios = el.options.querySelectorAll('input[type=radio]');
       el.confirmBtn.disabled = true;
       radios.forEach(r => r.addEventListener('change', ()=> el.confirmBtn.disabled = false));
 
-      // Reset confirm/next UI
       el.confirmBtn.disabled = true;
       el.confirmBtn.classList.remove('hidden');
       el.confirmBtn.disabled = true;
       el.confirmBtn.textContent = 'Confirm answer';
-      // attach click
       el.confirmBtn.onclick = () => onConfirm(q);
       el.nextBtn.onclick = onNext;
       el.restartBtn.onclick = onRestart;
@@ -231,7 +219,6 @@
       if (!selected){ alert('Please select an option first'); return; }
       const selectedIdx = parseInt(selected.value,10);
 
-      // disable inputs
       const radios = el.options.querySelectorAll('input[type=radio]');
       radios.forEach(r => r.disabled = true);
       el.confirmBtn.disabled = true;
@@ -239,12 +226,10 @@
       const correct = q.correctIndex;
       const isCorrect = (correct >= 0) ? (selectedIdx === correct) : (false);
 
-      // show feedback
       el.feedback.classList.remove('hidden');
       if (isCorrect){ el.feedback.classList.add('correct'); el.feedback.classList.remove('incorrect'); el.feedback.innerHTML = `<div>✅ <strong>Correct</strong></div>`; }
       else { el.feedback.classList.add('incorrect'); el.feedback.classList.remove('correct'); el.feedback.innerHTML = `<div>❌ <strong>Incorrect</strong></div>`; }
 
-      // Show the correct answer (either derived index or raw answer cell)
       let correctHtml = '';
       if (correct >= 0 && q.options[correct]){
         correctHtml = `<div>Correct answer: <span class="answer-highlight">${letterForIndex(correct)}. ${escapeHtml(q.options[correct])}</span></div>`;
@@ -258,7 +243,6 @@
 
       el.feedback.innerHTML += correctHtml + explanationHtml;
 
-      // Highlight correct/incorrect option labels visually
       const labels = el.options.querySelectorAll('label');
       labels.forEach((lab,i) => {
         lab.style.borderColor = 'transparent';
@@ -266,7 +250,6 @@
         if (i === selectedIdx && (!isCorrect)) { lab.style.borderColor = '#f5b4b4'; }
       });
 
-      // Show Next / Restart
       el.nextBtn.classList.remove('hidden');
       el.restartBtn.classList.remove('hidden');
     }
@@ -274,11 +257,11 @@
     function onNext(){ currentIndex++; renderCurrent(); }
     function onRestart(){ currentIndex = 0; renderCurrent(); }
 
-    // ---------------------- Bootstrap ----------------------
     (async function(){
       questions = await loadQuestions();
       el.loading.classList.add('hidden');
       if (!questions || questions.length === 0){ el.noData.classList.remove('hidden'); return; }
+      shuffle(questions);
       renderCurrent();
     })();
   </script>
