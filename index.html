@@ -1,131 +1,288 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MCQ Quiz</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCQ Quiz (from questions.csv)</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      max-width: 700px;
-    }
-    .question-box {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .source {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 0.5rem;
-    }
-    .options label {
-      display: block;
-      margin: 0.5rem 0;
-    }
-    button {
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-    button:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-    .feedback {
-      margin-top: 1rem;
-      padding: 1rem;
-      border-radius: 6px;
-    }
-    .correct { background: #d4edda; color: #155724; }
-    .incorrect { background: #f8d7da; color: #721c24; }
+    :root{--accent:#0b5fff;--muted:#666}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;line-height:1.45;margin:24px;max-width:900px}
+    h1{margin:0 0 8px}
+    .meta{color:var(--muted);margin-bottom:18px}
+    .card{border:1px solid #e2e8f0;padding:18px;border-radius:10px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
+    .question{font-size:1.1rem;margin-bottom:8px}
+    .source{font-size:.88rem;color:var(--muted);margin-bottom:12px}
+    .options label{display:block;padding:8px;border-radius:6px;border:1px solid transparent;margin:6px 0;cursor:pointer}
+    .options input{margin-right:10px}
+    .controls{margin-top:12px}
+    button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+    button[disabled]{opacity:.6;cursor:not-allowed}
+    .feedback{margin-top:12px;padding:12px;border-radius:8px}
+    .correct{background:#e6ffed;color:#064e2a;border:1px solid #c8f7d0}
+    .incorrect{background:#fff0f0;color:#571212;border:1px solid #f2c8c8}
+    .answer-highlight{font-weight:700}
+    .small{font-size:.88rem;color:var(--muted)}
+    .hidden{display:none}
+    .footer{margin-top:18px;color:var(--muted)}
   </style>
 </head>
 <body>
   <h1>Multiple Choice Quiz</h1>
-  <div id="quiz-container"></div>
+  <div class="meta">This page reads <code>questions.csv</code> from the same folder and presents questions one at a time. Column mapping: B=question, C-F=options (A-D), G=answer, H=explanation, I=source.</div>
+
+  <div id="quiz" class="card">
+    <div id="loading" class="small">Loading questions…</div>
+    <div id="no-data" class="small hidden">No questions found in <code>questions.csv</code>.</div>
+    <div id="question-area" class="hidden">
+      <div id="progress" class="small"></div>
+      <div id="q-text" class="question"></div>
+      <div id="q-source" class="source"></div>
+      <div class="options" id="options"></div>
+
+      <div class="controls">
+        <button id="confirm-btn" disabled>Confirm answer</button>
+        <button id="next-btn" class="hidden" style="margin-left:10px">Next question</button>
+        <button id="restart-btn" class="hidden" style="margin-left:10px;background:#777">Restart</button>
+      </div>
+
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+  </div>
+
+  <div class="footer">Tip: open this page from a local server (e.g. VS Code Live Server or GitHub Pages). Fetching <code>questions.csv</code> usually fails when opened with <code>file://</code>.</div>
+
   <script>
-    async function loadCSV() {
-      const response = await fetch("questions.csv");
-      const text = await response.text();
-      const rows = text.trim().split("\n").map(r => r.split(","));
-      // Ignore header (row[0]) and parse from row[1]
-      return rows.slice(1).map(r => ({
-        question: r[1],
-        options: r.slice(2, 6),
-        answer: r[6],
-        explanation: r[7],
-        source: r[8]
-      }));
-    }
+    // ---------------------- Utilities ----------------------
+    function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
-    }
+    // Robust CSV parser (handles quoted fields and double-quote escapes) - RFC4180-ish
+    function parseCSV(text){
+      const rows = [];
+      let i = 0, len = text.length;
+      let field = '';
+      let row = [];
+      let inQuotes = false;
 
-    async function startQuiz() {
-      const questions = shuffle(await loadCSV());
-      let currentIndex = 0;
-      const container = document.getElementById("quiz-container");
-
-      function showQuestion() {
-        if (currentIndex >= questions.length) {
-          container.innerHTML = "<h2>Quiz Complete! 🎉</h2>";
-          return;
+      while (i < len) {
+        const ch = text[i];
+        if (inQuotes) {
+          if (ch === '"') {
+            if (i + 1 < len && text[i+1] === '"') { field += '"'; i += 2; continue; } // escaped quote
+            inQuotes = false; i++; continue;
+          } else { field += ch; i++; continue; }
         }
 
-        const q = questions[currentIndex];
-        container.innerHTML = `
-          <div class="question-box">
-            <h2>${q.question}</h2>
-            <div class="source">Source: ${q.source || "Unknown"}</div>
-            <div class="options">
-              ${q.options.map((opt, i) => `
-                <label>
-                  <input type="radio" name="option" value="${opt}">
-                  ${opt}
-                </label>
-              `).join("")}
-            </div>
-            <button id="submit-btn">Confirm Answer</button>
-            <div id="feedback"></div>
-          </div>
-        `;
-
-        document.getElementById("submit-btn").addEventListener("click", () => {
-          const selected = document.querySelector("input[name='option']:checked");
-          const feedbackDiv = document.getElementById("feedback");
-          if (!selected) {
-            alert("Please select an option!");
-            return;
-          }
-
-          const isCorrect = selected.value.trim() === q.answer.trim();
-          feedbackDiv.className = "feedback " + (isCorrect ? "correct" : "incorrect");
-          feedbackDiv.innerHTML = `
-            <strong>${isCorrect ? "✅ Correct!" : "❌ Incorrect."}</strong><br>
-            Correct Answer: <b>${q.answer}</b><br>
-            Explanation: ${q.explanation}
-          `;
-
-          document.getElementById("submit-btn").disabled = true;
-
-          setTimeout(() => {
-            currentIndex++;
-            showQuestion();
-          }, 3000);
-        });
+        if (ch === '"') { inQuotes = true; i++; continue; }
+        if (ch === ',') { row.push(field); field = ''; i++; continue; }
+        if (ch === '\r') { // handle CRLF or CR-only
+          i++; if (i < len && text[i] === '\n') i++; row.push(field); rows.push(row); row = []; field = ''; continue;
+        }
+        if (ch === '\n') { i++; row.push(field); rows.push(row); row = []; field = ''; continue; }
+        field += ch; i++;
       }
-
-      showQuestion();
+      // push last field/row
+      if (inQuotes) {
+        // unclosed quotes — still push what we have
+      }
+      // if there is any leftover data
+      if (field !== '' || row.length > 0) {
+        row.push(field);
+        rows.push(row);
+      }
+      return rows;
     }
 
-    startQuiz();
+    function normalizeText(s){ return String(s||'').replace(/\s+/g,' ').replace(/[\u2018\u2019\u201c\u201d]/g, '"').replace(/[\p{P}]/gu,'').trim().toLowerCase(); }
+
+    // Determine the correct option index (0..3) from the answer cell and options.
+    function determineCorrectIndex(options, answerCell){
+      const a = (answerCell||'').trim();
+      if (!a) return -1;
+      // If answer is a simple letter A-D
+      const first = a.charAt(0).toUpperCase();
+      if (/^[ABCD]$/.test(first) && (a.length === 1 || /[^a-zA-Z]/.test(a.charAt(1)))) {
+        return {'A':0,'B':1,'C':2,'D':3}[first];
+      }
+      // If answer is 1-4
+      if (/^[1-4]$/.test(a)) return parseInt(a,10)-1;
+      // If the answer starts with A) or A. followed by text
+      const m = a.match(/^([A-D])\s*[\)\.\-:]\s*(.+)$/i);
+      if (m){ const letter = m[1].toUpperCase(); const trailing = m[2].trim(); // try trailing match
+        for (let i=0;i<options.length;i++){ if (normalizeText(options[i]) === normalizeText(trailing)) return i; }
+        return {'A':0,'B':1,'C':2,'D':3}[letter];
+      }
+      // exact match with option text
+      for (let i=0;i<options.length;i++){ if (normalizeText(options[i]) === normalizeText(a)) return i; }
+      // contains / partial match
+      for (let i=0;i<options.length;i++){ const o = normalizeText(options[i]); if (o && (o.includes(normalizeText(a)) || normalizeText(a).includes(o))) return i; }
+      return -1;
+    }
+
+    function letterForIndex(i){ return ['A','B','C','D'][i] || '?'; }
+
+    // ---------------------- CSV -> Questions ----------------------
+    function rowsToQuestions(rows){
+      if (!rows || rows.length === 0) return [];
+      // Detect header row: if any cell in first row looks like a header (contains 'question' or 'option' or 'answer')
+      const first = rows[0].map(c => String(c||'').toLowerCase());
+      let start = 0;
+      if (first.some(c => /question|option|answer|explanation|source/.test(c))) start = 1;
+
+      const questions = [];
+      for (let r = start; r < rows.length; r++){
+        const row = rows[r];
+        if (!row) continue;
+        // Per user: B = question (index 1), C-F = options (2..5), G=answer (6), H=explanation (7), I=source (8)
+        const question = (row[1] || '').trim();
+        if (!question) continue; // skip empty rows
+        const options = [row[2]||'', row[3]||'', row[4]||'', row[5]||''].map(x => String(x||'').trim());
+        const answerCell = (row[6]||'').trim();
+        const explanation = (row[7]||'').trim();
+        const source = (row[8]||'').trim();
+        const correctIndex = determineCorrectIndex(options, answerCell);
+        questions.push({question, options, answerCell, explanation, source, correctIndex});
+      }
+      return questions;
+    }
+
+    // ---------------------- UI & Flow ----------------------
+    const el = {
+      loading: document.getElementById('loading'),
+      noData: document.getElementById('no-data'),
+      questionArea: document.getElementById('question-area'),
+      progress: document.getElementById('progress'),
+      qText: document.getElementById('q-text'),
+      qSource: document.getElementById('q-source'),
+      options: document.getElementById('options'),
+      confirmBtn: document.getElementById('confirm-btn'),
+      nextBtn: document.getElementById('next-btn'),
+      restartBtn: document.getElementById('restart-btn'),
+      feedback: document.getElementById('feedback')
+    };
+
+    let questions = [];
+    let currentIndex = 0;
+
+    async function loadQuestions(){
+      try{
+        const res = await fetch('questions.csv');
+        if (!res.ok) throw new Error('Fetch failed: ' + res.status + ' ' + res.statusText);
+        const text = await res.text();
+        const rows = parseCSV(text);
+        return rowsToQuestions(rows);
+      } catch(err){
+        console.error(err);
+        el.loading.textContent = 'Error loading questions.csv — check the console. (Make sure the file is served from a local server, not opened via file://)';
+        return [];
+      }
+    }
+
+    function renderCurrent(){
+      el.feedback.classList.add('hidden');
+      el.feedback.classList.remove('correct','incorrect');
+      el.nextBtn.classList.add('hidden');
+      el.restartBtn.classList.add('hidden');
+
+      if (currentIndex >= questions.length){
+        el.questionArea.classList.remove('hidden');
+        el.qText.innerHTML = '<strong>Quiz complete!</strong>';
+        el.qSource.innerHTML = '';
+        el.options.innerHTML = '';
+        el.progress.textContent = `${questions.length} / ${questions.length}`;
+        el.confirmBtn.disabled = true;
+        el.nextBtn.classList.add('hidden');
+        el.restartBtn.classList.remove('hidden');
+        return;
+      }
+
+      const q = questions[currentIndex];
+      el.questionArea.classList.remove('hidden');
+      el.progress.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+      el.qText.innerHTML = escapeHtml(q.question);
+      el.qSource.innerHTML = q.source ? `Source: ${escapeHtml(q.source)}` : '<span class="small">Source: (not provided)</span>';
+
+      // Build options (use index as value to avoid string-comparison issues)
+      el.options.innerHTML = '';
+      q.options.forEach((optText, idx) => {
+        if (!optText) return; // skip empty options
+        const id = `opt_${currentIndex}_${idx}`;
+        const label = document.createElement('label');
+        label.setAttribute('for', id);
+        label.innerHTML = `<input type="radio" name="option" id="${id}" value="${idx}"> <span>${escapeHtml(optText)}</span>`;
+        el.options.appendChild(label);
+      });
+
+      // enable confirm only after a selection
+      const radios = el.options.querySelectorAll('input[type=radio]');
+      el.confirmBtn.disabled = true;
+      radios.forEach(r => r.addEventListener('change', ()=> el.confirmBtn.disabled = false));
+
+      // Reset confirm/next UI
+      el.confirmBtn.disabled = true;
+      el.confirmBtn.classList.remove('hidden');
+      el.confirmBtn.disabled = true;
+      el.confirmBtn.textContent = 'Confirm answer';
+      // attach click
+      el.confirmBtn.onclick = () => onConfirm(q);
+      el.nextBtn.onclick = onNext;
+      el.restartBtn.onclick = onRestart;
+    }
+
+    function onConfirm(q){
+      const selected = el.options.querySelector('input[type=radio]:checked');
+      if (!selected){ alert('Please select an option first'); return; }
+      const selectedIdx = parseInt(selected.value,10);
+
+      // disable inputs
+      const radios = el.options.querySelectorAll('input[type=radio]');
+      radios.forEach(r => r.disabled = true);
+      el.confirmBtn.disabled = true;
+
+      const correct = q.correctIndex;
+      const isCorrect = (correct >= 0) ? (selectedIdx === correct) : (false);
+
+      // show feedback
+      el.feedback.classList.remove('hidden');
+      if (isCorrect){ el.feedback.classList.add('correct'); el.feedback.classList.remove('incorrect'); el.feedback.innerHTML = `<div>✅ <strong>Correct</strong></div>`; }
+      else { el.feedback.classList.add('incorrect'); el.feedback.classList.remove('correct'); el.feedback.innerHTML = `<div>❌ <strong>Incorrect</strong></div>`; }
+
+      // Show the correct answer (either derived index or raw answer cell)
+      let correctHtml = '';
+      if (correct >= 0 && q.options[correct]){
+        correctHtml = `<div>Correct answer: <span class="answer-highlight">${letterForIndex(correct)}. ${escapeHtml(q.options[correct])}</span></div>`;
+      } else if (q.answerCell){
+        correctHtml = `<div>Correct answer (raw): <span class="answer-highlight">${escapeHtml(q.answerCell)}</span></div>`;
+      } else {
+        correctHtml = `<div class="small">No correct answer provided in CSV (column G)</div>`;
+      }
+
+      const explanationHtml = q.explanation ? `<div style="margin-top:8px"><strong>Explanation:</strong> ${escapeHtml(q.explanation)}</div>` : '';
+
+      el.feedback.innerHTML += correctHtml + explanationHtml;
+
+      // Highlight correct/incorrect option labels visually
+      const labels = el.options.querySelectorAll('label');
+      labels.forEach((lab,i) => {
+        lab.style.borderColor = 'transparent';
+        if (i === correct && correct >= 0){ lab.style.borderColor = '#9fe7b3'; }
+        if (i === selectedIdx && (!isCorrect)) { lab.style.borderColor = '#f5b4b4'; }
+      });
+
+      // Show Next / Restart
+      el.nextBtn.classList.remove('hidden');
+      el.restartBtn.classList.remove('hidden');
+    }
+
+    function onNext(){ currentIndex++; renderCurrent(); }
+    function onRestart(){ currentIndex = 0; renderCurrent(); }
+
+    // ---------------------- Bootstrap ----------------------
+    (async function(){
+      questions = await loadQuestions();
+      el.loading.classList.add('hidden');
+      if (!questions || questions.length === 0){ el.noData.classList.remove('hidden'); return; }
+      renderCurrent();
+    })();
   </script>
 </body>
 </html>
