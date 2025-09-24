@@ -68,7 +68,7 @@ PHC0066,What is the recommended treatment for genital ulcer syndrome (GUS)?,Oral
 PHC0067,According to the guidelines what is the correct treatment for genital warts?,Topical podophyllin,Surgical excision,Cryotherapy,Imiquimod cream,A,The guideline states that topical podophyllin is the recommended treatment for genital warts[cite: 12].,EDL PHC
 PHC0068,At what age is the first dose of the BCG vaccine given?,At birth,6 weeks,10 weeks,14 weeks,A,The guidelines state that the BCG vaccine is administered at birth[cite: 13].,EDL PHC
 PHC0069,At what age is the measles vaccine given?,At birth,6 months,9 months,12 months,C,The measles vaccine is administered at 9 months[cite: 13].,EDL PHC
-PHC0070,What is the correct storage temperature for vaccines?,2-8?øC,0-2?øC,-2 to 0?øC,-8 to -2?øC,A,The guideline states that vaccines must be stored in a cold chain at 2-8?øC[cite: 13].,EDL PHC
+PHC0070,What is the correct storage temperature for vaccines?,2-8??C,0-2??C,-2 to 0??C,-8 to -2??C,A,The guideline states that vaccines must be stored in a cold chain at 2-8??C[cite: 13].,EDL PHC
 PHC0071,What is the recommended treatment for an acute arthritis attack caused by Gout?,Allopurinol,Colchicine,Indomethacin,Ibuprofen,B,The guideline states that colchicine is the recommended treatment for acute gout[cite: 14].,EDL PHC
 PHC0072,What is the recommended long-term treatment for chronic gout?,Allopurinol,Colchicine,Indomethacin,Ibuprofen,A,The guideline states that allopurinol is the recommended long-term treatment for chronic gout[cite: 14].,EDL PHC
 PHC0073,Which of the following is a recommended treatment for osteoarthrosis?,NSAIDs,Corticosteroids,Opioids,Referral for surgery,A,The guideline recommends NSAIDs for the treatment of osteoarthrosis[cite: 14].,EDL PHC
@@ -166,14 +166,14 @@ Maternity0164,How is primary postpartum haemorrhage (PPH) defined?,Excessive ble
 Maternity0165,Which of the following is a recognised risk factor for maternal mental health conditions?,High educational attainment,Refugee or asylum seeker status,Multiparity without complications,Access to social support networks,B,Being a refugee or asylum seeker is a recognised risk factor.,Maternal Care Guidelines
 Maternity0166,What is the purpose of the BANC Plus antenatal schedule?,To reduce number of antenatal visits,To increase visits for improved monitoring,To replace ultrasound scans,To avoid routine laboratory tests,B,BANC Plus increased the number of visits to improve outcomes.,Maternal Care Guidelines
 Maternity0167,Which of the following is NOT a type of disrespect and abuse in maternity care?,Failure to provide services due to prejudice,Denying mobility or food in labour,Encouraging chosen birth position,Unwanted physical contact,C,Encouraging chosen birth positions is part of respectful care.,Maternal Care Guidelines
-Maternity0168,Which simple measure can improve respectful communication during labour?,Shouting instructions,Using patientƒ??s preferred name,Withholding information until delivery,Allowing only one examination per labour,B,Calling women by their preferred name improves rapport and respect.,Maternal Care Guidelines
+Maternity0168,Which simple measure can improve respectful communication during labour?,Shouting instructions,Using patientŸ??s preferred name,Withholding information until delivery,Allowing only one examination per labour,B,Calling women by their preferred name improves rapport and respect.,Maternal Care Guidelines
 Maternity0169,Which statement about adolescent pregnancy is correct?,It carries lower risk than adult pregnancy,It is associated with higher risk of eclampsia and infections,It is always intended,It results in better neonatal outcomes,B,Adolescents face higher risks of complications such as eclampsia and infection.,Maternal Care Guidelines
 Maternity0170,Which of the following should be done when a woman is experiencing pregnancy loss?,Leave her alone without explanation,Explain causes if known using simple language,Deny her access to the baby,Transfer her immediately without support,B,Women should receive explanations and compassionate support during loss.,Maternal Care Guidelines
 Maternity0171,Which test is routinely used to screen for syphilis in pregnancy?,GeneXpert,RPR,CTG,HIV PCR,B,RPR is the standard screening test for syphilis in pregnancy.,Maternal Care Guidelines
 Maternity0172,What is the recommended first-line uterotonic for prevention of postpartum haemorrhage?,Carboprost,Oxytocin,Misoprostol,Ergometrine,B,Oxytocin is the drug of choice for prevention of PPH.,Maternal Care Guidelines
-Maternity0173,Which of the following defines pre-eclampsia with severe features?,Proteinuria only,BP ƒ?160/110 with organ dysfunction,BP ƒ?140/90 after 20 weeks with no symptoms,Any rise in BP in first trimester,B,"Severe features include high BP with organ dysfunction such as headache, visual changes, or elevated creatinine.",Maternal Care Guidelines
+Maternity0173,Which of the following defines pre-eclampsia with severe features?,Proteinuria only,BP Ÿ?160/110 with organ dysfunction,BP Ÿ?140/90 after 20 weeks with no symptoms,Any rise in BP in first trimester,B,"Severe features include high BP with organ dysfunction such as headache, visual changes, or elevated creatinine.",Maternal Care Guidelines
 Maternity0174,What is the management of a septic miscarriage?,Observation only,Immediate uterine evacuation and IV antibiotics,Oral antibiotics at home,Iron supplementation only,B,Septic miscarriage requires immediate uterine evacuation and IV antibiotics.,Maternal Care Guidelines
-Maternity0175,Which fetal heart rate is considered normal during labour?,80ƒ??100 bpm,100ƒ??110 bpm,110ƒ??160 bpm,160ƒ??200 bpm,C,Normal fetal heart rate in labour is 110ƒ??160 bpm.,Maternal Care Guidelines
+Maternity0175,Which fetal heart rate is considered normal during labour?,80Ÿ??100 bpm,100Ÿ??110 bpm,110Ÿ??160 bpm,160Ÿ??200 bpm,C,Normal fetal heart rate in labour is 110Ÿ??160 bpm.,Maternal Care Guidelines
 Maternity0176,What is the safest delivery method for a transverse lie at term?,Normal vaginal delivery,Forceps extraction,Caesarean section,Vacuum delivery,C,Transverse lie usually requires caesarean section for safe delivery.,Maternal Care Guidelines
 Maternity0177,What is the most appropriate response if a client is aggressive during labour care?,Argue and assert authority,Remain calm and acknowledge their emotions,Ignore the client,Remove their birth companion,B,Remaining calm and acknowledging emotion de-escalates situations.,Maternal Care Guidelines
 Maternity0178,Which of the following is a recommended food supplement during pregnancy in South Africa?,Vitamin C,Folic acid and iron,High-dose Vitamin A,Calcium only,B,Folic acid and iron supplementation is standard in pregnancy.,Maternal Care Guidelines
@@ -263,7 +263,7 @@ Maternity0261,Which of the following defines complete placenta praevia?,Placenta
 PaedsTB0262,What percentage of the estimated 27000 children with TB in South Africa were notified and reported to the WHO in 2022?,0.39,0.51,0.61,0.93,C,"In 2022,  South Africa reported 16534 child TB notifications which accounts for 61% of the estimated 27000 children with TB in the country[cite: 30].",Paeds and Adolescent TB
 PaedsTB0263,According to the guideline which of the following is a key update in the revised South African recommendations?, The use of a clinical treatment decision algorithm to support clinicians at the tertiary level., The use of additional specimens to confirm a diagnosis of TB in children., A new focus on treatment lengthening for non-severe forms of TB., The exclusive use of the Tuberculin Skin Test (TST) for diagnosis.,B,"The new South African recommendations include key updates such as the use of additional specimens for diagnosis and a clinical treatment decision algorithm for primary health care clinicians[cite: 6, 7]",Paeds and Adolescent TB
 PaedsTB0264,Which term has replaced 'latent TB' in the updated guidelines for children and adolescents?, TB disease, Presumptive TB, TB infection, Significant TB exposure,C,The term latent TB has been replaced by the term TB infection as children are mostly recently infected,Paeds and Adolescent TB
-PaedsTB0265,What is the definition of 'Significant TB Exposure' according to the guideline?, Exposure for at least 1 night or frequent daytime periods to a TB source patient within the last 3 months., Exposure within 12 months to a TB source patient who started treatment >3 months ago., Any exposure to a TB source patient within the last 6 months., Exposure within 12 months to a TB source patient in the same enclosed space for ƒ? 1 night or frequent daytime periods during the three months before the source patient started TB treatment.,D,"Significant TB Exposure is defined as ""Exposure within the 12 months before the child/adolescent presents with presumed TB to a person (adult or adolescent) with pulmonary TB within the same enclosed space for ƒ? 1 night... or for frequent or extended daytime periods... during the three months before the source/index patient started TB treatment""[cite: 46].",Paeds and Adolescent TB
+PaedsTB0265,What is the definition of 'Significant TB Exposure' according to the guideline?, Exposure for at least 1 night or frequent daytime periods to a TB source patient within the last 3 months., Exposure within 12 months to a TB source patient who started treatment >3 months ago., Any exposure to a TB source patient within the last 6 months., Exposure within 12 months to a TB source patient in the same enclosed space for Ÿ? 1 night or frequent daytime periods during the three months before the source patient started TB treatment.,D,"Significant TB Exposure is defined as ""Exposure within the 12 months before the child/adolescent presents with presumed TB to a person (adult or adolescent) with pulmonary TB within the same enclosed space for Ÿ? 1 night... or for frequent or extended daytime periods... during the three months before the source/index patient started TB treatment""[cite: 46].",Paeds and Adolescent TB
 PaedsTB0266,"Which of the following is NOT one of the ""puzzle pieces"" used to construct a TB diagnosis in children and adolescents?", Patient history, Clinical examination, Socio-economic status, HIV status,C,"The 'puzzle pieces' include patient history, clinical examination, HIV status, CXR, and diagnostic testing[cite: 481]",Paeds and Adolescent TB
 PaedsTB0267,A child is considered to have 'presumptive TB' when:?, The diagnosis of TB is bacteriologically confirmed., TB is considered a possible cause of illness based on symptoms or signs., The child has a positive TST result., The child has a history of significant TB exposure.,B,A child or adolescent is believed to have presumptive TB when TB is considered a possible cause of illness in those who present with symptoms or signs suggestive of TB[cite: 51].,Paeds and Adolescent TB
 PaedsTB0268,What is the most common form of TB in children in high TB incidence countries like South Africa?, Extrapulmonary TB (EPT, Miliary TB, Pulmonary TB (PT, TB meningitis,C,Pulmonary TB (PT is the most common form of TB in children[cite: 428].,Paeds and Adolescent TB
@@ -293,7 +293,7 @@ PaedsTB0291,Which of the following is a symptom of Pulmonary TB (PT listed in th
 PaedsTB0292,According to the guideline what is the recommended management of a child with miliary tuberculosis?," Treatment is not delayed,  and the drug regimen is the same as for TBM.", Treatment is delayed until bacteriological confirmation is obtained., The drug regimen is the same as for non-severe PTB., Corticosteroids are contraindicated.,A,Treatment should not be delayed while waiting for results; the anti-tuberculosis drug regimen is the same as for TBM[cite: 174].,Paeds and Adolescent TB
 PaedsTB0293,What is the recommended approach to breastfeeding for a mother being treated for TB?, Breastfeeding is not recommended., Breastfeeding should be stopped., Breastfeeding should be encouraged for all mothers still able to breastfeed., Breastfeeding is only recommended for mothers with non-severe TB.,C,Breastfeeding should be encouraged for all mothers still able to breastfeed[cite: 117].,Paeds and Adolescent TB
 PaedsTB0294,What is the definition of a 'clinical diagnosis of TB'?, A diagnosis confirmed by a positive culture result.," A diagnosis based on history,  clinical findings,  and/or radiological features.", A diagnosis made when all bacteriological tests are positive., A diagnosis made only in the absence of radiological features.,B,"A diagnosis made on the grounds of history, clinical findings, radiological features, exposure history, growth trend, or a combination of the above, and where bacteriological tests were either not performed or the results were negative[cite: 52].",Paeds and Adolescent TB
-PaedsTB0295,When should a child with a known TB exposure be considered for TB preventive treatment (TPT)?, When they have no symptoms and no radiological changes on CXR., Only if they are also living with HIV., Never, as TPT is not part of the guideline.,B,Children with no symptoms and no radiological changes on CXR are classified as having TB infection (previously termed ƒ??latentƒ?? T and should be considered for TB preventive treatment (TPT)[cite: 449 450].,Paeds and Adolescent TB
+PaedsTB0295,When should a child with a known TB exposure be considered for TB preventive treatment (TPT)?, When they have no symptoms and no radiological changes on CXR., Only if they are also living with HIV., Never, as TPT is not part of the guideline.,B,Children with no symptoms and no radiological changes on CXR are classified as having TB infection (previously termed Ÿ??latentŸ?? T and should be considered for TB preventive treatment (TPT)[cite: 449 450].,Paeds and Adolescent TB
 PaedsTB0296,In the context of the TB/HIV co-infected patient the guideline states that TB cannot be treated without also treating HIV. What is the reciprocal statement?, HIV can be treated without also treating TB., HIV cannot be treated without also treating TB., ART must be stopped during TB treatment., TB treatment must be delayed until ART is started.,B,"The guideline explicitly states: ""In a TB/HIV co-infected patient TB cannot be treated without also treating HIV and HIV cannot be treated without also treating TB!""[cite: 104].",Paeds and Adolescent TB
 PaedsTB0297,Which of the following is a danger sign in a child with TB needing urgent attention?, Persistent cough for >2 weeks, Loss of appetite, Convulsions, Failure to thrive,C,Box 1 lists convulsions as a danger sign needing urgent attention[cite: 11].,Paeds and Adolescent TB
 PaedsTB0298,What is the recommended medication for supplemental pyridoxine?, Vitamin D, Pyridoxine, Zinc, Iron,B,"Section 9.2 is titled ""Supplemental pyridoxine"" and lists the drug name[cite: 43].",Paeds and Adolescent TB
@@ -322,7 +322,7 @@ PaedsTB0320,Which of the following is NOT a factor that influences the timing of
 PaedsTB0321,What is a key difference in TB management between children and adults as stated in the guideline?, Treatment is always the same for both age groups., Children may have more rapid disease progression., Adults have better treatment outcomes., Diagnosis is easier in children.,B,CALHIV may have more rapid TB disease progression and are at higher risk of developing severe disease[cite: 99].,Paeds and Adolescent TB
 PaedsTB0322,What is the recommended drug regimen for the intensive phase of treatment for perinatal TB?, Isoniazid and Rifampicin," Isoniazid, Rifampicin, Pyrazinamide,  and Ethambutol or Ethionamide"," Isoniazid, Rifampicin, and Pyrazinamide", Ethionamide and Rifampicin,B,The intensive phase consists of four drugs: isoniazid rifampicin and pyrazinamide and a fourth drug: either ethambutol or ethionamide[cite: 191].,Paeds and Adolescent TB
 PaedsTB0323,What is the purpose of the clinical treatment decision algorithm mentioned in the foreword?, To replace clinical judgement completely., To enable and support clinicians at the primary health care level to start TB treatment., To be used only at the tertiary level of care., To determine which patients are eligible for surgery.,B,"The clinical treatment decision algorithm is intended ""to enable and support clinicians at the primary health care level to start TB treatment""[cite: 7].",Paeds and Adolescent TB
-PaedsTB0324,What is the reason given for replacing the term 'latent TB' with 'TB infection' in children?, Children are mostly recently infected., The term 'latent' is considered outdated., 'TB infection' is a more accurate term for all age groups., The term 'latent' is only used for adults.,A,The term ƒ??latent TBƒ? has been replaced by the term ƒ??TB infectionƒ? as children are mostly recently infected[cite: 49].,Paeds and Adolescent TB
+PaedsTB0324,What is the reason given for replacing the term 'latent TB' with 'TB infection' in children?, Children are mostly recently infected., The term 'latent' is considered outdated., 'TB infection' is a more accurate term for all age groups., The term 'latent' is only used for adults.,A,The term Ÿ??latent TBŸ? has been replaced by the term Ÿ??TB infectionŸ? as children are mostly recently infected[cite: 49].,Paeds and Adolescent TB
 PaedsTB0325,What is the main purpose of the SHINE trial mentioned in Annexure 4?, To study drug-resistant TB in adults., To assess the efficacy of treatment shortening in children with non-severe TB., To find a new drug for TB treatment., To compare different diagnostic tests for TB.,B,SHINE was a multi-centre phase 3 open-label treatment-shortening non-inferiority trial in children with non-severe symptomatic smear-negative presumed drug-susceptible (DS)-TB[cite: 312].,Paeds and Adolescent TB
 PaedsTB0326,Which of the following is a correct statement about a child with TB who is on ART?, ART is not needed if the child is already on TB treatment., ART should be stopped during TB treatment.," The child should be on ART, clinically well, and have a CD4% > 25 to receive a BCG", The BCG vaccine can be given at any time regardless of CD4,C,If the infant is also LHIV they should be on ART clinically well and have a CD4 > 25% to be able to receive BCG[cite: 219]. clinically well,Paeds and Adolescent TB
 PaedsTB0327,What is the recommended management of a child with spinal arachnoiditis identified on an MRI?, It should be managed as TBM., It should be managed with anti-inflammatory drugs only., No treatment is necessary unless there is bone disease., The regimen should be the same as for non-severe PTB.,A,If this is identified on an MRI it should be managed as TBM[cite: 171].,Paeds and Adolescent TB
@@ -335,55 +335,3 @@ PaedsTB0333,What is the definition of Pulmonary Tuberculosis (PT?, TB involving 
 PaedsTB0334,What is the recommended duration of the continuation phase for a child with severe PTB and most EPTB?, 2 months, 4 months, 6 months, 10 months,B,For severe PTB and most EPTB the continuation phase duration is 4 months[cite: 142].,Paeds and Adolescent TB
 PaedsTB0335,What is the purpose of U-LAM testing in children living with HIV (CLHIV)?, To test for drug resistance., To assess for drug-susceptible TB., To diagnose advanced HIV disease., The guideline does not mention U-LAM.,B,U-LAM is listed under 'Special investigations' in Figure 2 in the box for assessing for TB infection or TB disease[cite: 62].,Paeds and Adolescent TB
 PaedsTB0336,Which of the following is a definition of a drug-susceptible TB (DS-T?, M.tb strains that are resistant to first-line agents., M.tb strains that are susceptible to first-line agents rifampicin and isoniazid., Any patient with TB involving organs other than the lungs., The form of TB that requires the longest treatment regimen.,B,Drug-susceptible TB (DS-T is defined as M.tb strains that are susceptible to the first-line agents rifampicin and isoniazid[cite: 56].,Paeds and Adolescent TB
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
-,Check QUestion,,,,,,,
