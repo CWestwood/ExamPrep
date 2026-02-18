@@ -1,0 +1,244 @@
+import React, { useState } from 'react';
+import { 
+  Calendar, 
+  Stethoscope, 
+  Baby, 
+  Users, 
+  FileCheck, 
+  ChevronLeft, 
+  ChevronRight, 
+  AlertCircle, 
+  Clock,
+  HeartPulse
+} from 'lucide-react';
+
+const Presentation = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: "Policy on Leave 2025",
+      subtitle: "Eastern Cape Department of Health",
+      type: "title",
+      content: (
+        <div className="flex flex-col items-center text-center space-y-6">
+          <div className="p-6 bg-emerald-100 rounded-full">
+            <HeartPulse size={80} className="text-emerald-700" />
+          </div>
+          <p className="text-xl text-slate-600 max-w-lg">
+            Essential guidelines on leave allocations, processes, and compliance for permanent staff.
+          </p>
+          <div className="mt-8 text-sm font-semibold tracking-widest text-emerald-800 uppercase">
+            Development Through Unity
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Vacation Leave Allocations",
+      icon: <Calendar className="text-emerald-600" />,
+      content: (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-6 border-l-4 border-emerald-500 bg-emerald-50 rounded-r-lg">
+              <h4 className="font-bold text-lg mb-2">Service &lt; 10 Years</h4>
+              <p className="text-3xl font-bold text-emerald-700">22 Days</p>
+              <p className = "text-xl font-italic text-emerald-700"> + 2 admin days (unofficial) </p>
+              <p className="text-sm text-slate-600">Per annual leave cycle</p>
+            </div>
+            <div className="p-6 border-l-4 border-emerald-500 bg-emerald-50 rounded-r-lg">
+              <h4 className="font-bold text-lg mb-2">Service &gt; 10 Years</h4>
+              <p className="text-3xl font-bold text-emerald-700">30 Days</p>
+              <p className = "text-xl font-italic text-emerald-700"> + 2 admin days (unofficial) </p>
+              <p className="text-sm text-slate-600">Per annual leave cycle</p>
+            </div>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg space-y-3">
+            <div className="flex items-start gap-3">
+              <Clock size={20} className="text-slate-500 mt-1" />
+              <p><span className="font-bold">Mandatory Use:</span> At least 10 working days must be taken per cycle.</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <AlertCircle size={20} className="text-amber-600 mt-1" />
+              <p><span className="font-bold">Grace Period:</span> Unused days expire 6 months after the cycle ends.</p>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Sick Leave Management",
+      icon: <Stethoscope className="text-blue-600" />,
+      content: (
+        <div className="space-y-4">
+          <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+            <p className="text-lg mb-2 text-blue-900 italic font-medium">"A healthy workforce is a necessity for universal access to healthcare."</p>
+            <p className="text-3xl font-bold text-blue-700">36 Days / 3-Year Cycle</p>
+          </div>
+          <ul className="space-y-3">
+            <li className="flex items-center gap-3 p-3 bg-white shadow-sm rounded border">
+              <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+              <span>Medical Certificate required for 3+ consecutive days.</span>
+            </li>
+            <li className="flex items-center gap-3 p-3 bg-white shadow-sm rounded border">
+              <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+              <span><strong>8-Week Rule:</strong> Certificate required for any absence if absent &gt; 2 times in 8 weeks.</span>
+            </li>
+            <li className="flex items-center gap-3 p-3 bg-red-50 shadow-sm rounded border border-red-100 text-red-800">
+              <AlertCircle size={18} className="shrink-0" />
+              <span>Exceeding 3 months of sick leave in a year disqualifies you from performance incentives.</span>
+            </li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      title: "Parental & Family Leave",
+      icon: <Baby className="text-purple-600" />,
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
+            <h4 className="font-bold flex items-center gap-2 mb-2">
+              <Baby size={18} /> Maternity
+            </h4>
+            <p className="text-2xl font-bold text-purple-700">4 Months</p>
+            <p className="text-xs text-slate-500 mt-1">Includes 8 days Pre-natal leave</p>
+          </div>
+          <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+            <h4 className="font-bold flex items-center gap-2 mb-2">
+              <Users size={18} /> Family Resp.
+            </h4>
+            <p className="text-2xl font-bold text-indigo-700">5 Days</p>
+            <p className="text-xs text-slate-500 mt-1">Per cycle (Illness/Death of family)</p>
+          </div>
+          <div className="p-4 bg-pink-50 rounded-lg border border-pink-100">
+            <h4 className="font-bold flex items-center gap-2 mb-2">
+              <Users size={18} /> Paternity
+            </h4>
+            <p className="text-2xl font-bold text-pink-700">3 Days</p>
+            <p className="text-xs text-slate-500 mt-1">Per cycle (Birth/Adoption)</p>
+          </div>
+          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+            <h4 className="font-bold mb-2">Adoption</h4>
+            <p className="text-2xl font-bold text-slate-700">45 Days</p>
+            <p className="text-xs text-slate-500 mt-1">Child must be under 2 years old</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Leave Application Process",
+      icon: <FileCheck className="text-emerald-600" />,
+      content: (
+        <div className="relative">
+          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+          <div className="space-y-6 relative">
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 z-10 text-sm font-bold">1</div>
+              <div>
+                <h4 className="font-bold">Check Leave Calendar</h4>
+                <p className="text-sm text-slate-600">Target is max 5 people away at any time, ideally 4</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 z-10 text-sm font-bold">2</div>
+              <div>
+                <h4 className="font-bold">Complete online leave form</h4>
+                <p className="text-sm text-slate-600">and send Chris a message for adding to the leave calendar</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 z-10 text-sm font-bold">3</div>
+              <div>
+                <h4 className="font-bold">Submit Form Z1(a)</h4>
+                <p className="text-sm text-slate-600">Submit in writing to Chris in advance.</p>
+                <p className="text-sm text-slate-600">Completing the online form beforehand will allow Chris to preprint your leave form </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4 text-amber-700 p-3 bg-amber-50 rounded-lg">
+              <AlertCircle size={18} className="shrink-0 mt-0.5" />
+              <p className="text-xs font-medium">Unplanned/Emergency: Notify verbally or via Whatsapp immediately, submit form within 5 days of return.</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  ];
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  return (
+    <div className="min-h-screen bg-slate-100 p-4 md:p-8 flex items-center justify-center font-sans">
+      <div className="max-w-4xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden min-h-[550px] flex flex-col relative">
+        
+        {/* Progress Bar */}
+        <div className="h-1.5 w-full bg-slate-100">
+          <div 
+            className="h-full bg-emerald-500 transition-all duration-300"
+            style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+          ></div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-grow p-8 md:p-12">
+          {slides[currentSlide].type !== 'title' && (
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-3 bg-slate-50 rounded-xl">
+                {slides[currentSlide].icon}
+              </div>
+              <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">
+                {slides[currentSlide].title}
+              </h2>
+            </div>
+          )}
+
+          {slides[currentSlide].type === 'title' ? (
+            <div className="flex flex-col items-center justify-center h-full space-y-4">
+              <h1 className="text-5xl font-black text-emerald-800 text-center leading-tight">
+                {slides[currentSlide].title}
+              </h1>
+              <h3 className="text-2xl font-medium text-slate-500 text-center">
+                {slides[currentSlide].subtitle}
+              </h3>
+              <div className="w-full pt-8">
+                {slides[currentSlide].content}
+              </div>
+            </div>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+              {slides[currentSlide].content}
+            </div>
+          )}
+        </div>
+
+        {/* Footer Navigation */}
+        <div className="p-6 bg-slate-50 border-t flex items-center justify-between">
+          <div className="text-sm font-medium text-slate-400">
+            Slide {currentSlide + 1} of {slides.length}
+          </div>
+          <div className="flex gap-4">
+            <button 
+              onClick={prevSlide}
+              className="p-3 rounded-full hover:bg-white hover:shadow-md transition-all text-slate-600 disabled:opacity-30"
+              disabled={currentSlide === 0}
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="px-6 py-2 bg-emerald-700 text-white rounded-full font-bold hover:bg-emerald-800 transition-all flex items-center gap-2 shadow-lg shadow-emerald-700/20"
+            >
+              {currentSlide === slides.length - 1 ? "Start Over" : "Next Slide"}
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Presentation;
